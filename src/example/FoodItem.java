@@ -70,8 +70,13 @@ public class FoodItem extends HttpServlet {
 				String response = retrieveFromDB(xml);
 				resp.getWriter().println(response);
 				break;
+			
+			case 3: 
+				String res = createAddErrorResponse();
+				resp.getWriter().println(res);
 				
 			}
+			
 			
 		}
 		catch (NullPointerException e) {
