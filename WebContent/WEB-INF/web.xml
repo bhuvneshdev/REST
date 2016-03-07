@@ -11,7 +11,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>FoodItem</servlet-name>
-    <servlet-class>foodPackage.FoodItem</servlet-class>
+    <servlet-class>foodPackage.Server</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>FoodItem</servlet-name>

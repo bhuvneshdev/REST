@@ -33,7 +33,7 @@ import org.xml.sax.SAXException;
 //import jdk.internal.jfr.events.FileWriteEvent;
 //import sun.org.mozilla.javascript.internal.json.JsonParser;
 
-public class FoodItem extends HttpServlet {
+public class Server extends HttpServlet {
 
 	
 	
@@ -49,7 +49,7 @@ public class FoodItem extends HttpServlet {
 		
 		int type;
 		try {
-			type = typeOnBasisOfXml(xmlStr);
+			type = checkType.typeOnBasisOfXml(xmlStr);
 			if(type == 1){
 				renderXml.updateDBWithData(xmlStr,resp);
 			}
@@ -84,8 +84,8 @@ public class FoodItem extends HttpServlet {
 	public String retrieveFromDB(String xml) throws ParserConfigurationException, SAXException, IOException {
 		
 		ArrayList<String> idArray = fetchIds(xml);
-		String responseString = "";
-		responseString = renderXml.intializeText(0);
+		String resBackString = "";
+		resBackString = renderXml.intializeText(0);
 		for(String id : idArray){
 			boolean bib = isPresentInDB(id);
 			if(bib){
@@ -95,21 +95,21 @@ public class FoodItem extends HttpServlet {
 				String description = (String)food.get("description");
 				String category = (String)food.get("category");
 				String price = (String)food.get("price");
-				responseString += renderXml.createNewResponse(name,description,category,price,id,country,bib);
+				resBackString += renderXml.createNewResponse(name,description,category,price,id,country,bib);
 				
 				
 			}
 			else{
-				responseString += renderXml.createNewResponse(null,null,null,null,id,null,bib);
+				resBackString += renderXml.createNewResponse(null,null,null,null,id,null,bib);
 				
 			}
 			
 			//responseString += getResponseString(exists,country,id,name,description,category,price);
 		}
 		
-		responseString += renderXml.intializeText(1);
+		resBackString += renderXml.intializeText(1);
 		
-		return responseString;
+		return resBackString;
 	}
 	
 
@@ -313,32 +313,6 @@ public class FoodItem extends HttpServlet {
 
 	}
 	
-	
-
-	public static int typeOnBasisOfXml(String xml_file) throws ParserConfigurationException, SAXException, IOException {
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		String type = "";
-		
-		InputSource is = new InputSource();
-        is.setCharacterStream(new StringReader(xml_file));
-    	
-        Document doc = dBuilder.parse(is);
-		doc.getDocumentElement().normalize();
-		type = doc.getDocumentElement().getNodeName();
-		
-		if(type.equals("SelectedFoodItems")){
-			return 2;
-		}
-		else if(type.equals("NewFoodItems")){
-			return 1;
-		}
-		else{
-			return 3;
-		}
-		
-		
-	}
 
 
 	public static String makeString(HttpServletRequest req) {

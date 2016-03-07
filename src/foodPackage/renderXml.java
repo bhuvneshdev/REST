@@ -90,16 +90,16 @@ public class renderXml {
 			resp.getWriter().println(responseXML);
 			
 		}
-		else if(FoodItem.checkDB(name,category)){
-			int itemId =  FoodItem.getItem(name,category);
+		else if(Server.checkDB(name,category)){
+			int itemId =  Server.getItem(name,category);
 			responseXML = renderXml.existingText(itemId);
 			//responseXML = String.valueOf(itemId);
 			resp.getWriter().println(responseXML);
 		}
 	
-		else if(!(FoodItem.checkDB(name, category))){
-			int itemId = FoodItem.addedItemResponse();
-			FoodItem.addFoodToDb(country,itemId,name,description,category,price);
+		else if(!(Server.checkDB(name, category))){
+			int itemId = Server.addedItemResponse();
+			Server.addFoodToDb(country,itemId,name,description,category,price);
 			responseXML = renderXml.addedText(itemId);
 			resp.getWriter().println(responseXML);
 		}
